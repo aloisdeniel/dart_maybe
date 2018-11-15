@@ -1,5 +1,7 @@
 # maybe
 
+[![Pub](https://img.shields.io/pub/v/maybe.svg)](https://pub.dartlang.org/packages/maybe)
+
 No more null check with an dart equivalent of Maybe (Haskel, Elm) / Option (F#).
 
 ## Usage
