@@ -1,0 +1,10 @@
+name: maybe
+description: No more null errors.
+version: 0.1.0
+authors:
+  - Aloïs Deniel <alois.deniel@outlook.com>
+homepage: https://github.com/aloisdeniel/dart_maybe
+environment:
+    sdk: ">=2.0.0 <3.0.0"
+dev_dependencies:
+  test:
