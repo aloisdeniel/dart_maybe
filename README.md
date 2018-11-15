@@ -6,7 +6,7 @@ No more null check with an dart equivalent of Maybe (Haskel, Elm) / Option (F#).
 
 ## Usage
 
-The key is that you need to call the `Maybe.check<T>` method to access your potential value and you are forced to check its status.
+The key is that you need to call the `Maybe.when<T>` method to access your potential value so you are forced to check its status before using it.
 
 ```dart
 // Defining a value
