@@ -9,6 +9,20 @@ T some<T>(Maybe<T> maybe, T defaultValue) {
 }
 
 /**
+ * Converts [maybe] from [Maybe<T>] to [Maybe<U>].
+ * 
+ * If [maybe] is nothing, `Maybe<U>.nothing()` is returned, else `Maybe.some` from
+ * the value obtained from the [converter] with the original value.
+ */
+Maybe<U> map<T,U>(Maybe<T> maybe, U converter(T v)) {
+  if (nothing(maybe)) {
+    return Maybe<U>.nothing();
+  }
+  assert(converter != null, "a [converter] must be precised");
+  return Maybe.some(converter(maybe._value));
+}
+
+/**
  * Extracts value from [maybe] if not nothing, else returns [defaultValue].
  */
 bool nothing<T>(Maybe<T> maybe) {

@@ -151,5 +151,24 @@ void main() {
         expect(actual, equals("some"));
       });
     });
+    group(".map", () {
+
+      test("(nothing) returns nothing'", () {
+        var maybe = Maybe.nothing<String>();
+        var converter = map<String,int>(maybe, (v) => v.length);
+        expect(nothing(converter), equals(true));
+      });
+
+      test("(null) returns nothing'", () {
+        var converter = map<String,int>(null, (v) => v.length);
+        expect(nothing(converter), equals(true));
+      });
+
+      test("(some) returns a converted value'", () {
+        var maybe = Maybe.some("hello world");
+        var converter = map<String,int>(maybe, (v) => v.length);
+        expect(some(converter, 0), equals(11));
+      });
+    });
   });
 }
