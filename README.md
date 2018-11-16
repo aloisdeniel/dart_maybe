@@ -141,7 +141,7 @@ So, the critical part is that you can forget that `Optional` can be `null` itsel
 
 With `Maybe`, values can be nullable.
 
-In the following example, we explicitly say that the `title` should have a new `null` value.
+In the following example, we explicitly say that the title should have a new `null` value.
 
 ```dart
 class Update {
@@ -154,7 +154,7 @@ class Update {
 final update = Update(title: Maybe.some(null, nullable: true);
 ```
 
-This is really different than having a `nothing` description, which significates that the description shouldn't be modified.
+This is really different than having a `nothing` title, which significates that the title shouldn't be modified.
 
 ```dart
 final update = Update(title: Maybe.nothing());
