@@ -152,22 +152,65 @@ void main() {
       });
     });
     group(".mapSome", () {
-
       test("(nothing) returns nothing'", () {
         var maybe = Maybe.nothing<String>();
-        var converter = mapSome<String,int>(maybe, (v) => v.length);
+        var converter = mapSome<String, int>(maybe, (v) => v.length);
         expect(isNothing(converter), equals(true));
       });
 
       test("(null) returns nothing'", () {
-        var converter = mapSome<String,int>(null, (v) => v.length);
+        var converter = mapSome<String, int>(null, (v) => v.length);
         expect(isNothing(converter), equals(true));
       });
 
       test("(some) returns a converted value'", () {
         var maybe = Maybe.some("hello world");
-        var converter = mapSome<String,int>(maybe, (v) => v.length);
+        var converter = mapSome<String, int>(maybe, (v) => v.length);
         expect(some(converter, 0), equals(11));
+      });
+    });
+
+    group("==", () {
+      test("(some-x/some-x) is true", () {
+        var m1 = Maybe.some("hello world");
+        var m2 = Maybe.some("hello world");
+        expect(m1 == m2, equals(true));
+      });
+
+      test("(some-x/some-y) is false", () {
+        var m1 = Maybe.some("hello world");
+        var m2 = Maybe.some("world hello");
+        expect(m1 == m2, equals(false));
+      });
+
+      test("(some-x/nothing) is false", () {
+        var m1 = Maybe.some("hello world");
+        var m2 = Maybe<String>.nothing();
+        expect(m1 == m2, equals(false));
+      });
+
+      test("(nothing/some-x) is false", () {
+        var m1 = Maybe<String>.nothing();
+        var m2 = Maybe.some("hello world");
+        expect(m1 == m2, equals(false));
+      });
+
+      test("(nothing/nothing) is true", () {
+        var m1 = Maybe<String>.nothing();
+        var m2 = Maybe<String>.nothing();
+        expect(m1 == m2, equals(true));
+      });
+
+      test("(nothing/null) is true", () {
+        var m1 = Maybe<String>.nothing();
+        String m2 = null;
+        expect(m1 == m2, equals(true));
+      });
+
+      test("(null/nothing) is true", () {
+        var m1 = Maybe<String>.nothing();
+        String m2 = null;
+        expect(m1 == m2, equals(true));
       });
     });
   });

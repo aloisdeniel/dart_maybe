@@ -9,9 +9,7 @@ import 'package:maybe/maybe.dart';
 Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
   return (maybeIterable == null)
       ? Iterable.empty<T>()
-      : maybeIterable
-          .where((v) => !isNothing(v))
-          .map((v) => some(v, null));
+      : maybeIterable.where((v) => !isNothing(v)).map((v) => some(v, null));
 }
 
 /**
@@ -21,7 +19,7 @@ Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
 void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
   if (maybeIterable != null) {
     maybeIterable
-        .where((v) =>  !isNothing(v))
+        .where((v) => !isNothing(v))
         .map((v) => some(v, null))
         .forEach(f);
   }
@@ -31,8 +29,5 @@ void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
  * Returns the number of elements with a value in [maybeIterable].
  */
 int count<T>(Iterable<Maybe<T>> maybeList) {
-  return (maybeList == null)
-      ? 0
-      : maybeList.where((v) => !isNothing(v)).length;
+  return (maybeList == null) ? 0 : maybeList.where((v) => !isNothing(v)).length;
 }
-

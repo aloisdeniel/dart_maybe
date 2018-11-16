@@ -14,7 +14,7 @@ T some<T>(Maybe<T> maybe, T defaultValue) {
  * If [maybe] is nothing, `Maybe<U>.nothing()` is returned, else `Maybe.some` from
  * the value obtained from the [converter] with the original value.
  */
-Maybe<U> mapSome<T,U>(Maybe<T> maybe, U converter(T v)) {
+Maybe<U> mapSome<T, U>(Maybe<T> maybe, U converter(T v)) {
   if (isNothing(maybe)) {
     return Maybe<U>.nothing();
   }
@@ -41,10 +41,10 @@ void when<T>(Maybe<T> maybe,
     {MaybeNothing nothing, MaybeSome<T> some, MaybeDefault<T> defaultValue}) {
   if (isNothing(maybe)) {
     if (defaultValue != null) {
-      if(some != null) {
+      if (some != null) {
         some(defaultValue());
       }
-    } else if(nothing != null) {
+    } else if (nothing != null) {
       nothing();
     }
   } else if (some != null) {
@@ -80,13 +80,35 @@ class Maybe<T> {
             (nothingWhen != null && nothingWhen(_value));
 
   /**
+   *  Delegates to the underlying [_value] hashCode.
+   */
+  int get hashCode => isNothing(this) ? 0 : this._value.hashCode;
+
+  /**
+   * Delegates to the underlying [_value] == operator when possible.
+   */
+  bool operator ==(o) {
+    if (o is Maybe<T>) {
+      var oNothing = isNothing(o);
+      var thisNothing = isNothing(this);
+      return (oNothing && thisNothing) ||
+          (!oNothing && !thisNothing && o._value == this._value);
+    }
+
+    if (o == null && isNothing(this)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    *  Flattens two nested [maybe] into one. 
    */
   static Maybe<T> flatten<T>(Maybe<Maybe<T>> maybe) {
     if (maybe == null || maybe._isNothing) {
       return Maybe.nothing();
     }
-
     return maybe._value;
   }
 
