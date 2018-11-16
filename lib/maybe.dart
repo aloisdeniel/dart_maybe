@@ -23,7 +23,7 @@ Maybe<U> mapSome<T, U>(Maybe<T> maybe, U converter(T v)) {
 }
 
 /**
- * Extracts value from [maybe] if not nothing, else returns [defaultValue].
+ * Tests if [maybe] is nothing.
  */
 bool isNothing<T>(Maybe<T> maybe) {
   if (maybe == null || maybe._isNothing) {
@@ -31,6 +31,11 @@ bool isNothing<T>(Maybe<T> maybe) {
   }
   return false;
 }
+
+/**
+ * Tests if [maybe] is some.
+ */
+bool isSome<T>(Maybe<T> maybe) => !isNothing(maybe);
 
 /**
  * Tests the [maybe] status : executes [some] if it contains a value, [whenNothing] if not.

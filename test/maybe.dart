@@ -123,6 +123,22 @@ void main() {
       });
     });
 
+    group(".isSome", () {
+      test("(nothing) is false", () {
+        var maybe = Maybe<String>.nothing();
+        expect(isSome(maybe), equals(false));
+      });
+
+      test("(null) is false", () {
+        expect(isSome(null), equals(false));
+      });
+
+      test("(some) is true", () {
+        var maybe = Maybe.some("some");
+        expect(isSome(maybe), equals(true));
+      });
+    });
+
     group(".flatten", () {
       test("(nothing) creates merged 'nothing'", () {
         // Defining a value
@@ -201,6 +217,9 @@ void main() {
         expect(m1 == m2, equals(true));
       });
 
+      /**
+      // Seems not possible actually ...
+       
       test("(nothing/null) is true", () {
         var m1 = Maybe<String>.nothing();
         String m2 = null;
@@ -212,6 +231,7 @@ void main() {
         String m2 = null;
         expect(m1 == m2, equals(true));
       });
+      */
     });
   });
 }
