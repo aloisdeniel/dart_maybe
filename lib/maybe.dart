@@ -1,7 +1,47 @@
 /**
+ * Extracts value from [maybe] if not nothing, else returns [defaultValue].
+ */
+T some<T>(Maybe<T> maybe, T defaultValue) {
+  if (nothing(maybe)) {
+    return defaultValue;
+  }
+  return maybe._value;
+}
+
+/**
+ * Extracts value from [maybe] if not nothing, else returns [defaultValue].
+ */
+bool nothing<T>(Maybe<T> maybe) {
+  if (maybe == null || maybe._isNothing) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Tests the [maybe] status : executes [some] if it contains a value, [whenNothing] if not.
+ * 
+ * When adding [defaultValue], [isSome] is called with the value instead of [isNothing].
+ */
+void when<T>(Maybe<T> maybe,
+    {MaybeNothing isNothing, MaybeSome<T> isSome, MaybeDefault<T> defaultValue}) {
+  if (nothing(maybe)) {
+    if (defaultValue != null) {
+      if(isSome != null) {
+        isSome(defaultValue());
+      }
+    } else if(isNothing != null) {
+      isNothing();
+    }
+  } else if (isSome != null) {
+    isSome(maybe._value);
+  }
+}
+
+/**
  * The [Maybe] type encapsulates an optional value. A value of 
- * type [Maybe] a either contains a value of type T (built with
- * [Maybe.just]), or it is empty (built with [Maybe.nothing]). 
+ * type [Maybe<T>] either contains a value of type [T] (built with
+ * [Maybe<T>.just]), or it is empty (built with [Maybe<T>.nothing]). 
  */
 class Maybe<T> {
   bool _isNothing;
@@ -26,28 +66,10 @@ class Maybe<T> {
             (nothingWhen != null && nothingWhen(_value));
 
   /**
-   * Tests the [maybe] status : executes [some] if it contains a value, [nothing] if not.
-   * 
-   * When adding [defaultValue], [some] is called with the value instead of [nothing].
-   */
-  static void when<T>(Maybe<T> maybe,
-      {MaybeNothing nothing, MaybeSome<T> some, MaybeDefault<T> defaultValue}) {
-    if ((maybe == null || maybe._isNothing) && nothing != null) {
-      if (defaultValue != null) {
-        some(defaultValue());
-      } else {
-        nothing();
-      }
-    } else if (!maybe._isNothing && some != null) {
-      some(maybe._value);
-    }
-  }
-
-  /**
    *  Flattens two nested [maybe] into one. 
    */
   static Maybe<T> flatten<T>(Maybe<Maybe<T>> maybe) {
-    if(maybe == null || maybe._isNothing) {
+    if (maybe == null || maybe._isNothing) {
       return Maybe.nothing();
     }
 
@@ -55,10 +77,10 @@ class Maybe<T> {
   }
 
   /**
-   * Returns a new lazy [Iterable] with all elements in [maybeIterable] that contain a value.
+   * Returns a new lazy [Iterable] with all elements with a value in [maybeIterable].
    *
    * The matching elements have the same order in the returned iterable
-   * as they have in [iterator].
+   * as they have in [maybeIterable].
    */
   static Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
     return (maybeIterable == null)
@@ -69,7 +91,7 @@ class Maybe<T> {
   }
 
   /**
-   * Applies the function [f] to each element that isn't nothing of [maybeIterable] collection 
+   * Applies the function [f] to each element with a value of [maybeIterable] collection 
    * in iteration order.
    */
   static void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
@@ -82,7 +104,7 @@ class Maybe<T> {
   }
 
   /**
-   * Returns the number of elements in [maybeIterable].
+   * Returns the number of elements with a value in [maybeIterable].
    */
   static int count<T>(Iterable<Maybe<T>> maybeList) {
     return (maybeList == null)
