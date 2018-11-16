@@ -1,6 +1,6 @@
 name: maybe
-description: No more null errors.
-version: 0.3.6
+description: An helper for ensuring that values are checked before they are used.
+version: 0.3.7
 authors:
   - Aloïs Deniel <alois.deniel@outlook.com>
 homepage: https://github.com/aloisdeniel/dart_maybe
