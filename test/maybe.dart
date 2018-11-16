@@ -9,8 +9,8 @@ void main() {
         var maybe = Maybe.some("hello world");
         var actual = "";
         when(maybe,
-            isNothing: () => actual = "nothing",
-            isSome: (String v) {
+            nothing: () => actual = "nothing",
+            some: (String v) {
               actual = v;
             });
         expect(actual, equals("hello world"));
@@ -20,7 +20,7 @@ void main() {
         // Defining a value
         var maybe = Maybe.some("hello world");
         var actual = "";
-        when(maybe, isNothing: () => actual = "nothing", isSome: (v) => "some");
+        when(maybe, nothing: () => actual = "nothing", some: (v) => "some");
         expect(actual, equals(""));
       });
 
@@ -28,7 +28,7 @@ void main() {
         // Defining a value
         var maybe = Maybe<String>.nothing();
         var actual = "";
-        when(maybe, isSome: (v) {
+        when(maybe, some: (v) {
           actual = "some";
         });
         expect(actual, equals(""));
@@ -38,7 +38,7 @@ void main() {
         // Defining a value
         var maybe = Maybe<String>.nothing();
         var actual = "";
-        when(maybe, isNothing: () {
+        when(maybe, nothing: () {
           actual = "nothing";
         });
         expect(actual, equals("nothing"));
@@ -47,7 +47,7 @@ void main() {
       test("[isNothing] is called with null", () {
         // Defining a value
         var actual = "";
-        when(null, isNothing: () {
+        when(null, nothing: () {
           actual = "nothing";
         });
         expect(actual, equals("nothing"));
@@ -56,7 +56,7 @@ void main() {
       test("[some] isn't called with null", () {
         // Defining a value
         var actual = "";
-        when(null, isSome: (v) {
+        when(null, some: (v) {
           actual = "some";
         });
         expect(actual, equals(""));
@@ -67,10 +67,10 @@ void main() {
         var maybe = Maybe<String>.nothing();
         var actual = "";
         when(maybe,
-            isNothing: () {
+            nothing: () {
               actual = "nothing";
             },
-            isSome: (v) {
+            some: (v) {
               actual = v;
             },
             defaultValue: () => "default");
@@ -81,7 +81,7 @@ void main() {
         // Defining a value
         var maybe = Maybe.some("nothing", nothingWhen: (v) => v == "nothing");
         var actual = "";
-        when(maybe, isSome: (v) {
+        when(maybe, some: (v) {
           actual = "some";
         });
         expect(actual, equals(""));
@@ -107,19 +107,19 @@ void main() {
       });
     });
 
-    group(".nothing", () {
+    group(".isNothing", () {
       test("(nothing) is true", () {
         var maybe = Maybe<String>.nothing();
-        expect(nothing(maybe), equals(true));
+        expect(isNothing(maybe), equals(true));
       });
 
       test("(null) is true", () {
-        expect(nothing(null), equals(true));
+        expect(isNothing(null), equals(true));
       });
 
       test("(some) is false", () {
         var maybe = Maybe.some("some");
-        expect(nothing(maybe), equals(false));
+        expect(isNothing(maybe), equals(false));
       });
     });
 
@@ -129,7 +129,7 @@ void main() {
         var maybe = Maybe<Maybe<String>>.nothing();
         var flatten = Maybe.flatten(maybe);
         var actual = "";
-        when(flatten, isNothing: () => actual = "nothing");
+        when(flatten, nothing: () => actual = "nothing");
         expect(actual, equals("nothing"));
       });
 
@@ -138,7 +138,7 @@ void main() {
         var maybe = Maybe.some(Maybe<String>.nothing());
         var flatten = Maybe.flatten(maybe);
         var actual = "";
-        when(flatten, isNothing: () => actual = "nothing");
+        when(flatten, nothing: () => actual = "nothing");
         expect(actual, equals("nothing"));
       });
 
@@ -147,26 +147,26 @@ void main() {
         var maybe = Maybe.some(Maybe<String>.some("some"));
         var flatten = Maybe.flatten(maybe);
         var actual = "";
-        when(flatten, isSome: (v) => actual = v);
+        when(flatten, some: (v) => actual = v);
         expect(actual, equals("some"));
       });
     });
-    group(".map", () {
+    group(".mapSome", () {
 
       test("(nothing) returns nothing'", () {
         var maybe = Maybe.nothing<String>();
-        var converter = map<String,int>(maybe, (v) => v.length);
-        expect(nothing(converter), equals(true));
+        var converter = mapSome<String,int>(maybe, (v) => v.length);
+        expect(isNothing(converter), equals(true));
       });
 
       test("(null) returns nothing'", () {
-        var converter = map<String,int>(null, (v) => v.length);
-        expect(nothing(converter), equals(true));
+        var converter = mapSome<String,int>(null, (v) => v.length);
+        expect(isNothing(converter), equals(true));
       });
 
       test("(some) returns a converted value'", () {
         var maybe = Maybe.some("hello world");
-        var converter = map<String,int>(maybe, (v) => v.length);
+        var converter = mapSome<String,int>(maybe, (v) => v.length);
         expect(some(converter, 0), equals(11));
       });
     });

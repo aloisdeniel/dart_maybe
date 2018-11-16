@@ -2,7 +2,7 @@
  * Extracts value from [maybe] if not nothing, else returns [defaultValue].
  */
 T some<T>(Maybe<T> maybe, T defaultValue) {
-  if (nothing(maybe)) {
+  if (isNothing(maybe)) {
     return defaultValue;
   }
   return maybe._value;
@@ -14,8 +14,8 @@ T some<T>(Maybe<T> maybe, T defaultValue) {
  * If [maybe] is nothing, `Maybe<U>.nothing()` is returned, else `Maybe.some` from
  * the value obtained from the [converter] with the original value.
  */
-Maybe<U> map<T,U>(Maybe<T> maybe, U converter(T v)) {
-  if (nothing(maybe)) {
+Maybe<U> mapSome<T,U>(Maybe<T> maybe, U converter(T v)) {
+  if (isNothing(maybe)) {
     return Maybe<U>.nothing();
   }
   assert(converter != null, "a [converter] must be precised");
@@ -25,7 +25,7 @@ Maybe<U> map<T,U>(Maybe<T> maybe, U converter(T v)) {
 /**
  * Extracts value from [maybe] if not nothing, else returns [defaultValue].
  */
-bool nothing<T>(Maybe<T> maybe) {
+bool isNothing<T>(Maybe<T> maybe) {
   if (maybe == null || maybe._isNothing) {
     return true;
   }
@@ -38,17 +38,17 @@ bool nothing<T>(Maybe<T> maybe) {
  * When adding [defaultValue], [isSome] is called with the value instead of [isNothing].
  */
 void when<T>(Maybe<T> maybe,
-    {MaybeNothing isNothing, MaybeSome<T> isSome, MaybeDefault<T> defaultValue}) {
-  if (nothing(maybe)) {
+    {MaybeNothing nothing, MaybeSome<T> some, MaybeDefault<T> defaultValue}) {
+  if (isNothing(maybe)) {
     if (defaultValue != null) {
-      if(isSome != null) {
-        isSome(defaultValue());
+      if(some != null) {
+        some(defaultValue());
       }
-    } else if(isNothing != null) {
-      isNothing();
+    } else if(nothing != null) {
+      nothing();
     }
-  } else if (isSome != null) {
-    isSome(maybe._value);
+  } else if (some != null) {
+    some(maybe._value);
   }
 }
 

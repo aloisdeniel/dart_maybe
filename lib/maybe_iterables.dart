@@ -10,7 +10,7 @@ Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
   return (maybeIterable == null)
       ? Iterable.empty<T>()
       : maybeIterable
-          .where((v) => !nothing(v))
+          .where((v) => !isNothing(v))
           .map((v) => some(v, null));
 }
 
@@ -21,7 +21,7 @@ Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
 void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
   if (maybeIterable != null) {
     maybeIterable
-        .where((v) =>  !nothing(v))
+        .where((v) =>  !isNothing(v))
         .map((v) => some(v, null))
         .forEach(f);
   }
@@ -33,6 +33,6 @@ void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
 int count<T>(Iterable<Maybe<T>> maybeList) {
   return (maybeList == null)
       ? 0
-      : maybeList.where((v) => !nothing(v)).length;
+      : maybeList.where((v) => !isNothing(v)).length;
 }
 

@@ -1,6 +1,6 @@
 name: maybe
 description: No more null errors.
-version: 0.2.3
+version: 0.3.1
 authors:
   - Aloïs Deniel <alois.deniel@outlook.com>
 homepage: https://github.com/aloisdeniel/dart_maybe
