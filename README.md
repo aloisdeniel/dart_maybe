@@ -87,7 +87,7 @@ var value = some(converted, 0); // == 0
 
 ## What about quiver's `Optional` ?
 
-The [Optional](https://github.com/google/quiver-dart/blob/master/lib/src/core/optional.dart) type has several similarities with [Maybe], but there are several subtle differences.
+The [Optional](https://github.com/google/quiver-dart/blob/master/lib/src/core/optional.dart) type has several similarities with `Maybe`, but there are several subtle differences.
 
 ### Optional can be `null`
 
@@ -135,7 +135,7 @@ when(update.description, some: (v) {
 });
 ```
 
-So, the critical part is that you can forget that `Optional` can be `null` itself and produce exception (`update.title.ifPresent` in our example). You are then forced to test its nullity and you come back to the initial problematic. This is where `Maybe` feels more robust to me.
+So, the critical part is that you can forget that `Optional` can be `null` itself and produce exceptions (`update.title.ifPresent` in our example). You are then forced to test its nullity and you come back to the initial problematic. This is where `Maybe` feels more robust to me.
 
 ### `absent` is similar to `null`
 
@@ -156,7 +156,7 @@ class Update {
 final update = Update(title: Maybe.some(null, nullable: true);
 ```
 
-This is really different than having a `nothing` description, which signidicates that the description shouldn't be modified.
+This is really different than having a `nothing` description, which significates that the description shouldn't be modified.
 
 ```dart
 final update = Update(title: Maybe.nothing();
