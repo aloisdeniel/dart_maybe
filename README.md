@@ -145,12 +145,10 @@ In the following example, we explicitly say that the `title` should have a new `
 
 ```dart
 class Update {
-  final Optional<String> title;
-  final Optional<String> description;
+  final Maybe<String> title;
+  final Maybe<String> description;
 
-  Update({Optional<String> title, Optional<String> description})
-      : this.title = title ?? Optional<String>.absent(),
-        this.description = description ?? Optional<String>.absent();
+  Update({ this.title, this.description});
 }
 
 final update = Update(title: Maybe.some(null, nullable: true);
@@ -159,5 +157,5 @@ final update = Update(title: Maybe.some(null, nullable: true);
 This is really different than having a `nothing` description, which significates that the description shouldn't be modified.
 
 ```dart
-final update = Update(title: Maybe.nothing();
+final update = Update(title: Maybe.nothing());
 ```
