@@ -1,3 +1,5 @@
+export 'map.dart';
+
 /**
  * Extracts value from [maybe] if not nothing, else returns [defaultValue].
  */

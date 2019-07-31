@@ -85,6 +85,26 @@ var converted = mapSome<String,int>(maybe, (v) => v.length);
 var value = some(converted, 0); // == 0
 ```
 
+### `MaybeMap<K,V>` : a map with optional values (*aka Map<K, Maybe<V>>*)
+
+```dart
+var map = MaybeMap<String,String>();
+map["test"] = Maybe.nothing(); // doesn't add value
+map["test"] = Maybe.some("value"); // adds value
+when(map["test"], some: (v) => print(v));
+
+map["test"] = Maybe.nothing(); // deletes key
+when(map["test"], isNothing: (v) => print("deleted :" + map.containsKey("test").toString()));
+```
+
+```dart
+Map<String,String> maybeMap = {
+    "test": "value",
+};
+var maybeMap = MaybeMap<String,String>.fromMap(maybeMap);
+when(map["test"], some: (v) => print(v));
+```
+
 ## What about quiver's `Optional` ?
 
 The [Optional](https://github.com/google/quiver-dart/blob/master/lib/src/core/optional.dart) type has several similarities with `Maybe`, but there are several subtle differences.
