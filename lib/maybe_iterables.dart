@@ -8,12 +8,12 @@ import 'package:maybe/maybe.dart';
 */
 Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
   return (maybeIterable == null)
-      ? Iterable.empty<T>()
+      ? Iterable<T>.empty()
       : maybeIterable.where((v) => !isNothing(v)).map((v) => some(v, null));
 }
 
 /**
- * Applies the function [f] to each element with a value of [maybeIterable] collection 
+ * Applies the function [f] to each element with a value of [maybeIterable] collection
  * in iteration order.
  */
 void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
