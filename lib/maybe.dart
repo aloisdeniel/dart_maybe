@@ -12,7 +12,7 @@ T some<T>(Maybe<T> maybe, T defaultValue) {
 
 /**
  * Converts [maybe] from [Maybe<T>] to [Maybe<U>].
- * 
+ *
  * If [maybe] is nothing, `Maybe<U>.nothing()` is returned, else `Maybe.some` from
  * the value obtained from the [converter] with the original value.
  */
@@ -41,7 +41,7 @@ bool isSome<T>(Maybe<T> maybe) => !isNothing(maybe);
 
 /**
  * Tests the [maybe] status : executes [some] if it contains a value, [whenNothing] if not.
- * 
+ *
  * When adding [defaultValue], [isSome] is called with the value instead of [isNothing].
  */
 void when<T>(Maybe<T> maybe,
@@ -60,9 +60,9 @@ void when<T>(Maybe<T> maybe,
 }
 
 /**
- * The [Maybe] type encapsulates an optional value. A value of 
+ * The [Maybe] type encapsulates an optional value. A value of
  * type [Maybe<T>] either contains a value of type [T] (built with
- * [Maybe<T>.just]), or it is empty (built with [Maybe<T>.nothing]). 
+ * [Maybe<T>.just]), or it is empty (built with [Maybe<T>.nothing]).
  */
 class Maybe<T> {
   bool _isNothing;
@@ -76,10 +76,10 @@ class Maybe<T> {
         this._value = null;
 
   /**
-   * Some [value]. 
-   * 
+   * Some [value].
+   *
    * If [nullable], considered as [nothing] if [value] is null.
-   * 
+   *
    * If [nothingWhen], considered as [nothing] when predicate is verified.
    */
   Maybe.some(this._value, {bool nullable = false, bool nothingWhen(T value)})
@@ -110,7 +110,7 @@ class Maybe<T> {
   }
 
   /**
-   *  Flattens two nested [maybe] into one. 
+   *  Flattens two nested [maybe] into one.
    */
   static Maybe<T> flatten<T>(Maybe<Maybe<T>> maybe) {
     if (maybe == null || maybe._isNothing) {
@@ -127,14 +127,14 @@ class Maybe<T> {
    */
   static Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
     return (maybeIterable == null)
-        ? Iterable.empty<T>()
+        ? Iterable<T>.empty()
         : maybeIterable
             .where((v) => v != null && !v._isNothing)
             .map((v) => v._value);
   }
 
   /**
-   * Applies the function [f] to each element with a value of [maybeIterable] collection 
+   * Applies the function [f] to each element with a value of [maybeIterable] collection
    * in iteration order.
    */
   static void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {

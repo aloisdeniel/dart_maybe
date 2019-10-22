@@ -169,7 +169,7 @@ void main() {
     });
     group(".mapSome", () {
       test("(nothing) returns nothing'", () {
-        var maybe = Maybe.nothing<String>();
+        var maybe = Maybe<String>.nothing();
         var converter = mapSome<String, int>(maybe, (v) => v.length);
         expect(isNothing(converter), equals(true));
       });
@@ -219,7 +219,7 @@ void main() {
 
       /**
       // Seems not possible actually ...
-       
+
       test("(nothing/null) is true", () {
         var m1 = Maybe<String>.nothing();
         String m2 = null;
