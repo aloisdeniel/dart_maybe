@@ -1,10 +1,10 @@
 name: maybe
 description: An helper for ensuring that values are checked before they are used.
-version: 0.3.8
+version: 0.4.0
 authors:
   - Aloïs Deniel <alois.deniel@outlook.com>
 homepage: https://github.com/aloisdeniel/dart_maybe
 environment:
-    sdk: ">=2.0.0 <3.0.0"
+    sdk: ">=2.2.0 <3.0.0"
 dev_dependencies:
   test:

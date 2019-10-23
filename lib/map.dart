@@ -141,10 +141,14 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
       var oldValue = this[key];
       var updated = update(oldValue);
       this[key] = updated;
+      return updated;
     } else if (ifAbsent != null) {
       var updated = ifAbsent();
       this[key] = updated;
+      return updated;
     }
+
+    throw Error();
   }
 
   @override
