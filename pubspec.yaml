@@ -1,6 +1,6 @@
 name: maybe
 description: An helper for ensuring that values are checked before they are used.
-version: 0.4.0
+version: 0.5.0
 authors:
   - Aloïs Deniel <alois.deniel@outlook.com>
 homepage: https://github.com/aloisdeniel/dart_maybe
