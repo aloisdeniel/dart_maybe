@@ -4,7 +4,7 @@ import "package:test/test.dart";
 
 void main() {
   group("Iterables", () {
-    var maybeList = [
+    var maybeList = <Maybe<String>?>[
       Maybe.some("start"),
       Maybe.nothing(),
       null,

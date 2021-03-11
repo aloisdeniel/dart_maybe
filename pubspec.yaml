@@ -5,6 +5,6 @@ authors:
   - Aloïs Deniel <alois.deniel@outlook.com>
 homepage: https://github.com/aloisdeniel/dart_maybe
 environment:
-    sdk: ">=2.2.0 <3.0.0"
+    sdk: ">=2.12.0 <3.0.0"
 dev_dependencies:
   test:

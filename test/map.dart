@@ -5,7 +5,7 @@ void main() {
   group("MaybeMap", () {
     group("fromMap", () {
       test("valid map", () {
-        final map = <String, String>{
+        final map = <String, String?>{
           "1": "2",
           "3": "4",
           "5": null,
@@ -39,7 +39,7 @@ void main() {
         expect(isNothing(actual), equals(false));
         expect(actual, Maybe.some("2"));
       });
-      test("not containted value", () {
+      test("not contained value", () {
         var map = MaybeMap<String, String>();
         map["1"] = Maybe.some("2");
         var actual = map["2"];
