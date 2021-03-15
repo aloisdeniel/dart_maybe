@@ -3,11 +3,11 @@ export 'map.dart';
 /**
  * Extracts value from [maybe] if not nothing, else returns [defaultValue].
  */
-T some<T>(Maybe<T> maybe, T defaultValue) {
+T? some<T>(Maybe<T>? maybe, T? defaultValue) {
   if (isNothing(maybe)) {
     return defaultValue;
   }
-  return maybe._value;
+  return maybe!._value;
 }
 
 /**
@@ -16,18 +16,18 @@ T some<T>(Maybe<T> maybe, T defaultValue) {
  * If [maybe] is nothing, `Maybe<U>.nothing()` is returned, else `Maybe.some` from
  * the value obtained from the [converter] with the original value.
  */
-Maybe<U> mapSome<T, U>(Maybe<T> maybe, U converter(T v)) {
+Maybe<U> mapSome<T, U>(Maybe<T>? maybe, U? converter(T? v)?) {
   if (isNothing(maybe)) {
     return Maybe<U>.nothing();
   }
   assert(converter != null, "a [converter] must be precised");
-  return Maybe.some(converter(maybe._value));
+  return Maybe.some(converter!(maybe?._value));
 }
 
 /**
  * Tests if [maybe] is nothing.
  */
-bool isNothing<T>(Maybe<T> maybe) {
+bool isNothing<T>(Maybe<T>? maybe) {
   if (maybe == null || maybe._isNothing) {
     return true;
   }
@@ -37,15 +37,17 @@ bool isNothing<T>(Maybe<T> maybe) {
 /**
  * Tests if [maybe] is some.
  */
-bool isSome<T>(Maybe<T> maybe) => !isNothing(maybe);
+bool isSome<T>(Maybe<T>? maybe) => !isNothing(maybe);
 
 /**
  * Tests the [maybe] status : executes [some] if it contains a value, [whenNothing] if not.
  *
  * When adding [defaultValue], [isSome] is called with the value instead of [isNothing].
  */
-void when<T>(Maybe<T> maybe,
-    {MaybeNothing nothing, MaybeSome<T> some, MaybeDefault<T> defaultValue}) {
+void when<T>(Maybe<T>? maybe,
+    {MaybeNothing? nothing,
+    MaybeSome<T>? some,
+    MaybeDefault<T>? defaultValue}) {
   if (isNothing(maybe)) {
     if (defaultValue != null) {
       if (some != null) {
@@ -55,7 +57,7 @@ void when<T>(Maybe<T> maybe,
       nothing();
     }
   } else if (some != null) {
-    some(maybe._value);
+    some(maybe!._value);
   }
 }
 
@@ -66,7 +68,7 @@ void when<T>(Maybe<T> maybe,
  */
 class Maybe<T> {
   bool _isNothing;
-  final T _value;
+  final T? _value;
 
   /**
    * An empty value.
@@ -82,7 +84,7 @@ class Maybe<T> {
    *
    * If [nothingWhen], considered as [nothing] when predicate is verified.
    */
-  Maybe.some(this._value, {bool nullable = false, bool nothingWhen(T value)})
+  Maybe.some(this._value, {bool nullable = false, bool nothingWhen(T? value)?})
       : this._isNothing = (!nullable && _value == null) ||
             (nothingWhen != null && nothingWhen(_value));
 
@@ -94,7 +96,7 @@ class Maybe<T> {
   /**
    * Delegates to the underlying [_value] == operator when possible.
    */
-  bool operator ==(o) {
+  bool operator ==(Object? o) {
     if (o is Maybe<T>) {
       var oNothing = isNothing(o);
       var thisNothing = isNothing(this);
@@ -112,11 +114,11 @@ class Maybe<T> {
   /**
    *  Flattens two nested [maybe] into one.
    */
-  static Maybe<T> flatten<T>(Maybe<Maybe<T>> maybe) {
+  static Maybe<T> flatten<T>(Maybe<Maybe<T>>? maybe) {
     if (maybe == null || maybe._isNothing) {
       return Maybe.nothing();
     }
-    return maybe._value;
+    return maybe._value!;
   }
 
   /**
@@ -125,23 +127,24 @@ class Maybe<T> {
    * The matching elements have the same order in the returned iterable
    * as they have in [maybeIterable].
    */
-  static Iterable<T> filter<T>(Iterable<Maybe<T>> maybeIterable) {
+  static Iterable<T?> filter<T>(Iterable<Maybe<T>?>? maybeIterable) {
     return (maybeIterable == null)
         ? Iterable<T>.empty()
         : maybeIterable
             .where((v) => v != null && !v._isNothing)
-            .map((v) => v._value);
+            .map((v) => v!._value);
   }
 
   /**
    * Applies the function [f] to each element with a value of [maybeIterable] collection
    * in iteration order.
    */
-  static void forEach<T>(Iterable<Maybe<T>> maybeIterable, void f(T element)) {
-    if (maybeIterable == null) {
+  static void forEach<T>(
+      Iterable<Maybe<T>?>? maybeIterable, void f(T? element)) {
+    if (maybeIterable != null) {
       maybeIterable
           .where((v) => v != null && !v._isNothing)
-          .map((v) => v._value)
+          .map((v) => v!._value)
           .forEach(f);
     }
   }
@@ -149,7 +152,7 @@ class Maybe<T> {
   /**
    * Returns the number of elements with a value in [maybeIterable].
    */
-  static int count<T>(Iterable<Maybe<T>> maybeList) {
+  static int count<T>(Iterable<Maybe<T>?>? maybeList) {
     return (maybeList == null)
         ? 0
         : maybeList.where((v) => v != null && !v._isNothing).length;
@@ -158,6 +161,6 @@ class Maybe<T> {
 
 typedef void MaybeNothing();
 
-typedef void MaybeSome<T>(T value);
+typedef void MaybeSome<T>(T? value);
 
-typedef T MaybeDefault<T>();
+typedef T? MaybeDefault<T>();

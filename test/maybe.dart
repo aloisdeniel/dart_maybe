@@ -7,10 +7,10 @@ void main() {
       test("[isSome] is called with some value", () {
         // Defining a value
         var maybe = Maybe.some("hello world");
-        var actual = "";
+        String? actual = "";
         when(maybe,
             nothing: () => actual = "nothing",
-            some: (String v) {
+            some: (String? v) {
               actual = v;
             });
         expect(actual, equals("hello world"));
@@ -65,8 +65,8 @@ void main() {
       test("[some] is called with nothing and defaultValue", () {
         // Defining a value
         var maybe = Maybe<String>.nothing();
-        var actual = "";
-        when(maybe,
+        String? actual = "";
+        when<String>(maybe,
             nothing: () {
               actual = "nothing";
             },
@@ -162,26 +162,26 @@ void main() {
         // Defining a value
         var maybe = Maybe.some(Maybe<String>.some("some"));
         var flatten = Maybe.flatten(maybe);
-        var actual = "";
-        when(flatten, some: (v) => actual = v);
+        String? actual = "";
+        when<String>(flatten, some: (v) => actual = v);
         expect(actual, equals("some"));
       });
     });
     group(".mapSome", () {
       test("(nothing) returns nothing'", () {
         var maybe = Maybe<String>.nothing();
-        var converter = mapSome<String, int>(maybe, (v) => v.length);
+        var converter = mapSome<String, int>(maybe, (v) => v?.length);
         expect(isNothing(converter), equals(true));
       });
 
       test("(null) returns nothing'", () {
-        var converter = mapSome<String, int>(null, (v) => v.length);
+        var converter = mapSome<String, int>(null, (v) => v?.length);
         expect(isNothing(converter), equals(true));
       });
 
       test("(some) returns a converted value'", () {
         var maybe = Maybe.some("hello world");
-        var converter = mapSome<String, int>(maybe, (v) => v.length);
+        var converter = mapSome<String, int>(maybe, (v) => v?.length);
         expect(some(converter, 0), equals(11));
       });
     });

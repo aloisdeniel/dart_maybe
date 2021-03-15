@@ -1,8 +1,8 @@
 import 'package:maybe/maybe.dart';
 
 class Update {
-  final Maybe<String> title;
-  final Maybe<String> description;
+  final Maybe<String>? title;
+  final Maybe<String>? description;
   Update({this.title, this.description});
 }
 
@@ -17,7 +17,7 @@ void main(args) {
   });
 
   // if is also possible
-  if(isNothing(update.title)) {
+  if (isNothing(update.title)) {
     print("No description");
   }
 

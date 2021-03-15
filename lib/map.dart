@@ -4,18 +4,18 @@ import 'package:maybe/maybe.dart';
 
 /**
  * A map with optional values.
- * 
+ *
  * If a [nothing] is added, it removes an old value.
- * 
+ *
  * If a key isn't present in the map, [nothing] is returned as value.
  */
 class MaybeMap<K, V> implements Map<K, Maybe<V>> {
-  final Map<K, V> _map;
+  final Map<K, V?> _map;
   bool _nullable;
 
   /**
    * Creates a [MaybeMap].
-   * 
+   *
    * If [nullable] is `true`, `null` values are considered as `some`.
    */
   MaybeMap({bool nullable = true})
@@ -25,14 +25,14 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
   /**
    * Creates a [MaybeMap] instance that contains all key/value pairs of
    * [map] as [some].
-   * 
+   *
    * If [nullable] is `true`, `null` values are considered as `some`.
    */
   MaybeMap.fromMap(this._map, {bool nullable = true})
       : this._nullable = nullable;
 
   @override
-  Maybe<V> operator [](Object key) {
+  Maybe<V> operator [](Object? key) {
     if (!_map.containsKey(key)) {
       return Maybe<V>.nothing();
     }
@@ -69,12 +69,12 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
   void clear() => this._map.clear();
 
   @override
-  bool containsKey(Object key) => this._map.containsKey(key);
+  bool containsKey(Object? key) => this._map.containsKey(key);
 
   @override
-  bool containsValue(Object value) {
+  bool containsValue(Object? value) {
     if (value is Maybe<V> && !isNothing(value)) {
-      return this._map.containsValue(some(value, null));
+      return this._map.containsValue(some<V>(value, null));
     }
     if (value == null) {
       this._map.containsValue(null);
@@ -121,7 +121,7 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
   }
 
   @override
-  Maybe<V> remove(Object key) {
+  Maybe<V> remove(Object? key) {
     if (this.containsKey(key)) {
       var v = this._map.remove(key);
       return Maybe.some(v, nullable: true);
@@ -136,7 +136,7 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
 
   @override
   Maybe<V> update(K key, Maybe<V> Function(Maybe<V> value) update,
-      {Maybe<V> Function() ifAbsent}) {
+      {Maybe<V> Function()? ifAbsent}) {
     if (this.containsKey(key)) {
       var oldValue = this[key];
       var updated = update(oldValue);
@@ -163,8 +163,8 @@ class MaybeMap<K, V> implements Map<K, Maybe<V>> {
   Iterable<Maybe<V>> get values =>
       this._map.values.map((v) => Maybe.some(v, nullable: _nullable));
 
-  MapEntry<K, Maybe<V>> _mapEntry(MapEntry<K, V> entry) =>
+  MapEntry<K, Maybe<V>> _mapEntry(MapEntry<K, V?> entry) =>
       MapEntry<K, Maybe<V>>(entry.key, _someValue(entry.value));
 
-  Maybe<V> _someValue(V v) => Maybe.some(v, nullable: true);
+  Maybe<V> _someValue(V? v) => Maybe.some(v, nullable: true);
 }
